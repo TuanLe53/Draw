@@ -6,6 +6,7 @@ export default function Canvas(){
     const canvasRef = useRef<ReactSketchCanvasRef>(null);
     const [eraseMode, setEraseMode] = useState(false);
     const [strokeWidth, setStrokeWidth] = useState(5);
+    const [ eraserWidth, setEraserWidth] = useState(5);
 
     const handleEraserClick = () =>{
         setEraseMode(true);
@@ -19,6 +20,10 @@ export default function Canvas(){
 
     const handleStrokeWidthChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setStrokeWidth(+event.target.value);
+	};
+
+    const handleEraserWidthChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setEraserWidth(+event.target.value);
 	};
 
     return(
@@ -56,9 +61,26 @@ export default function Canvas(){
                 />
             </div>
 
+            <div>
+                <div>
+                    <span>Eraser width</span>
+                    <span>{eraserWidth}px</span>
+                </div>
+                <input 
+                    type="range"
+                    min="1"
+                    max="20"
+                    step="1"
+                    id="eraserWidth"
+                    value={eraserWidth}
+                    onChange={handleEraserWidthChange}
+                />
+            </div>
+
             <ReactSketchCanvas
                 ref={canvasRef}
                 strokeWidth={strokeWidth}
+                eraserWidth={eraserWidth}
                 width="100%"
                 height="150px"
                 canvasColor="transparent"
