@@ -1,4 +1,4 @@
-import { Eraser, Pencil } from "lucide-react";
+import { Eraser, Paintbrush, Pencil } from "lucide-react";
 import { useRef, useState, type ChangeEvent } from "react";
 import { ReactSketchCanvas, type ReactSketchCanvasRef } from "react-sketch-canvas";
 
@@ -7,6 +7,7 @@ export default function Canvas(){
     const [eraseMode, setEraseMode] = useState(false);
     const [strokeWidth, setStrokeWidth] = useState(5);
     const [ eraserWidth, setEraserWidth] = useState(5);
+    const [strokeColor, setStrokeColor] = useState("#106358");
 
     const handleEraserClick = () =>{
         setEraseMode(true);
@@ -26,6 +27,10 @@ export default function Canvas(){
 		setEraserWidth(+event.target.value);
 	};
 
+    const handleStrokeColorChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setStrokeColor(event.target.value);
+	};
+
     return(
         <div>
             <div>
@@ -43,6 +48,28 @@ export default function Canvas(){
                     <Eraser />
                     Eraser
                 </button>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+                <span className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-fd-muted-foreground">
+                    <Paintbrush className="w-3.5 h-3.5" />
+                    Stroke Color
+                </span>
+                <label className="relative flex items-center gap-2 px-3 py-1.5 rounded-md border border-fd-border bg-fd-muted hover:bg-fd-accent/50 cursor-pointer transition-colors duration-200 text-xs font-medium">
+                    <span
+                        className="w-4 h-4 rounded-full border border-fd-border shadow-inner"
+                        style={{ backgroundColor: strokeColor }}
+                    />
+                    <span className="font-mono text-[11px]">
+                        {strokeColor.toUpperCase()}
+                    </span>
+                    <input
+                        type="color"
+                        value={strokeColor}
+                        onChange={handleStrokeColorChange}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    />
+                </label>
             </div>
 
             <div>
@@ -81,10 +108,10 @@ export default function Canvas(){
                 ref={canvasRef}
                 strokeWidth={strokeWidth}
                 eraserWidth={eraserWidth}
+                strokeColor={strokeColor}
                 width="100%"
                 height="150px"
                 canvasColor="transparent"
-                strokeColor="#a855f7"
             />
         </div>
     )
