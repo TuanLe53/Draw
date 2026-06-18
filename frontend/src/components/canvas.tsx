@@ -1,4 +1,4 @@
-import { Eraser, Paintbrush, Pencil } from "lucide-react";
+import { Eraser, Paintbrush, Pencil, Redo2, Undo2 } from "lucide-react";
 import { useRef, useState, type ChangeEvent } from "react";
 import { ReactSketchCanvas, type ReactSketchCanvasRef } from "react-sketch-canvas";
 
@@ -29,6 +29,13 @@ export default function Canvas(){
 
     const handleStrokeColorChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setStrokeColor(event.target.value);
+	};
+
+	const handleUndoClick = () => {
+		canvasRef.current?.undo();
+	};
+	const handleRedoClick = () => {
+		canvasRef.current?.redo();
 	};
 
     return(
@@ -104,6 +111,27 @@ export default function Canvas(){
                 />
             </div>
 
+            <div>
+                <button
+                    type="button"
+                    onClick={handleUndoClick}
+                    title="Undo (Ctrl+Z)"
+                    className="inline-flex items-center justify-center p-2 rounded-md border border-fd-border bg-fd-card text-fd-foreground hover:bg-fd-accent transition-colors duration-150 shadow-sm"
+                >
+                    <Undo2 className="w-4 h-4" />
+                    <span className="sr-only">Undo</span>
+                </button>
+                <button
+                    type="button"
+                    onClick={handleRedoClick}
+                    title="Redo (Ctrl+Y)"
+                    className="inline-flex items-center justify-center p-2 rounded-md border border-fd-border bg-fd-card text-fd-foreground hover:bg-fd-accent transition-colors duration-150 shadow-sm"
+                >
+                    <Redo2 className="w-4 h-4" />
+                    <span className="sr-only">Redo</span>
+                </button>
+            </div>
+
             <ReactSketchCanvas
                 ref={canvasRef}
                 strokeWidth={strokeWidth}
@@ -111,7 +139,6 @@ export default function Canvas(){
                 strokeColor={strokeColor}
                 width="100%"
                 height="150px"
-                canvasColor="transparent"
             />
         </div>
     )
