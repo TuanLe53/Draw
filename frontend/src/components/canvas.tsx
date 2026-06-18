@@ -1,4 +1,4 @@
-import { Eraser, Paintbrush, Pencil, Redo2, Undo2 } from "lucide-react";
+import { Eraser, Paintbrush, Pencil, Redo2, Trash2, Undo2 } from "lucide-react";
 import { useRef, useState, type ChangeEvent } from "react";
 import { ReactSketchCanvas, type ReactSketchCanvasRef } from "react-sketch-canvas";
 
@@ -36,6 +36,10 @@ export default function Canvas(){
 	};
 	const handleRedoClick = () => {
 		canvasRef.current?.redo();
+	};
+
+	const handleClearClick = () => {
+		canvasRef.current?.clearCanvas();
 	};
 
     return(
@@ -129,6 +133,17 @@ export default function Canvas(){
                 >
                     <Redo2 className="w-4 h-4" />
                     <span className="sr-only">Redo</span>
+                </button>
+            </div>
+
+            <div>
+                <button
+                    type="button"
+                    onClick={handleClearClick}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-fd-border bg-fd-card text-xs font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-950/20 transition-all duration-150 shadow-sm"
+                >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    Clear
                 </button>
             </div>
 
